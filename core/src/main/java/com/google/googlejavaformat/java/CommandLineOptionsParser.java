@@ -84,7 +84,6 @@ final class CommandLineOptionsParser {
                 case "--style":
                 case "-style":
                 case "-s":
-                    System.out.println("Hello - it seems you're using the new Style code!");
                     optionsBuilder.style(JavaFormatterOptions.Style.valueOf(value));
                     break;
                 case "--version":
