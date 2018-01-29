@@ -13,6 +13,16 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="google-java-format-1.4-all-deps" level="project" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../core/target/google-java-format-1.6-SNAPSHOT-all-deps.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$MODULE_DIR$/../core/target/google-java-format-1.6-SNAPSHOT-all-deps.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
   </component>
 </module>

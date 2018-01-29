@@ -37,7 +37,10 @@ public class JavaFormatterOptions {
     GOOGLE(1),
 
     /** The AOSP-compliant configuration. */
-    AOSP(2);
+    AOSP(2),
+
+    /** Cengage custom configuration. */
+    CENGAGE(2);
 
     private final int indentationMultiplier;
 

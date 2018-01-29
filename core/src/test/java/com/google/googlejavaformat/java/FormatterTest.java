@@ -68,7 +68,7 @@ public final class FormatterTest {
     StringWriter err = new StringWriter();
 
     Main main = new Main(new PrintWriter(out, true), new PrintWriter(err, true), System.in);
-    String[] args = {"--aosp", path.toString()};
+    String[] args = {"--style=AOSP", path.toString()};
     assertThat(main.format(args)).isEqualTo(0);
     assertThat(out.toString()).isEqualTo(expectedOutput);
   }

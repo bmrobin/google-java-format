@@ -81,10 +81,11 @@ final class CommandLineOptionsParser {
         case "-length":
           optionsBuilder.addLength(parseInteger(it, flag, value));
           break;
-        case "--aosp":
-        case "-aosp":
-        case "-a":
-          optionsBuilder.aosp(true);
+        case "--style":
+        case "-style":
+        case "-s":
+          System.out.println("Hello - it seems you're using the new Style code!");
+          optionsBuilder.style(JavaFormatterOptions.Style.valueOf(value));
           break;
         case "--version":
         case "-version":
