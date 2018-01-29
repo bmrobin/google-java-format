@@ -26,62 +26,62 @@ import com.intellij.openapi.project.Project;
 import javax.annotation.Nullable;
 
 @State(
-  name = "GoogleJavaFormatSettings",
-  storages = {@Storage("google-java-format.xml")}
+    name = "GoogleJavaFormatSettings",
+    storages = {@Storage("google-java-format.xml")}
 )
 class GoogleJavaFormatSettings extends AbstractProjectComponent
-    implements PersistentStateComponent<GoogleJavaFormatSettings.State> {
+        implements PersistentStateComponent<GoogleJavaFormatSettings.State> {
 
-  private State state = new State();
+    private State state = new State();
 
-  protected GoogleJavaFormatSettings(Project project) {
-    super(project);
-  }
-
-  static GoogleJavaFormatSettings getInstance(Project project) {
-    return PeriodicalTasksCloser.getInstance()
-        .safeGetComponent(project, GoogleJavaFormatSettings.class);
-  }
-
-  @Nullable
-  @Override
-  public State getState() {
-    return state;
-  }
-
-  @Override
-  public void loadState(State state) {
-    this.state = state;
-    updateFormatterState();
-  }
-
-  boolean isEnabled() {
-    return state.enabled;
-  }
-
-  void setEnabled(boolean enabled) {
-    state.enabled = enabled;
-  }
-
-  JavaFormatterOptions.Style getStyle() {
-    return state.style;
-  }
-
-  void setStyle(JavaFormatterOptions.Style style) {
-    state.style = style;
-    updateFormatterState();
-  }
-
-  private void updateFormatterState() {
-    if (state.enabled) {
-      GoogleJavaFormatInstaller.installFormatter(myProject);
-    } else {
-      GoogleJavaFormatInstaller.removeFormatter(myProject);
+    protected GoogleJavaFormatSettings(Project project) {
+        super(project);
     }
-  }
 
-  static class State {
-    public boolean enabled = false;
-    public JavaFormatterOptions.Style style = JavaFormatterOptions.Style.GOOGLE;
-  }
+    static GoogleJavaFormatSettings getInstance(Project project) {
+        return PeriodicalTasksCloser.getInstance()
+                .safeGetComponent(project, GoogleJavaFormatSettings.class);
+    }
+
+    @Nullable
+    @Override
+    public State getState() {
+        return state;
+    }
+
+    @Override
+    public void loadState(State state) {
+        this.state = state;
+        updateFormatterState();
+    }
+
+    boolean isEnabled() {
+        return state.enabled;
+    }
+
+    void setEnabled(boolean enabled) {
+        state.enabled = enabled;
+    }
+
+    JavaFormatterOptions.Style getStyle() {
+        return state.style;
+    }
+
+    void setStyle(JavaFormatterOptions.Style style) {
+        state.style = style;
+        updateFormatterState();
+    }
+
+    private void updateFormatterState() {
+        if (state.enabled) {
+            GoogleJavaFormatInstaller.installFormatter(myProject);
+        } else {
+            GoogleJavaFormatInstaller.removeFormatter(myProject);
+        }
+    }
+
+    static class State {
+        public boolean enabled = false;
+        public JavaFormatterOptions.Style style = JavaFormatterOptions.Style.GOOGLE;
+    }
 }

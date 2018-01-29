@@ -14,10 +14,10 @@
 
 package com.google.googlejavaformat.java;
 
+import static com.google.googlejavaformat.java.JavaFormatterOptions.Style;
+
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableRangeSet;
-
-import static com.google.googlejavaformat.java.JavaFormatterOptions.Style;
 
 /**
  * Command line options for google-java-format.
@@ -27,234 +27,234 @@ import static com.google.googlejavaformat.java.JavaFormatterOptions.Style;
  */
 final class CommandLineOptions {
 
-  private final ImmutableList<String> files;
-  private final boolean inPlace;
-  private final ImmutableRangeSet<Integer> lines;
-  private final ImmutableList<Integer> offsets;
-  private final ImmutableList<Integer> lengths;
-  private final Style style;
-  private final boolean version;
-  private final boolean help;
-  private final boolean stdin;
-  private final boolean fixImportsOnly;
-  private final boolean sortImports;
-  private final boolean removeUnusedImports;
-  private final boolean dryRun;
-  private final boolean setExitIfChanged;
+    private final ImmutableList<String> files;
+    private final boolean inPlace;
+    private final ImmutableRangeSet<Integer> lines;
+    private final ImmutableList<Integer> offsets;
+    private final ImmutableList<Integer> lengths;
+    private final Style style;
+    private final boolean version;
+    private final boolean help;
+    private final boolean stdin;
+    private final boolean fixImportsOnly;
+    private final boolean sortImports;
+    private final boolean removeUnusedImports;
+    private final boolean dryRun;
+    private final boolean setExitIfChanged;
 
-  CommandLineOptions(
-      ImmutableList<String> files,
-      boolean inPlace,
-      ImmutableRangeSet<Integer> lines,
-      ImmutableList<Integer> offsets,
-      ImmutableList<Integer> lengths,
-      Style style,
-      boolean version,
-      boolean help,
-      boolean stdin,
-      boolean fixImportsOnly,
-      boolean sortImports,
-      boolean removeUnusedImports,
-      boolean dryRun,
-      boolean setExitIfChanged) {
-    this.files = files;
-    this.inPlace = inPlace;
-    this.lines = lines;
-    this.offsets = offsets;
-    this.lengths = lengths;
-    this.style = style;
-    this.version = version;
-    this.help = help;
-    this.stdin = stdin;
-    this.fixImportsOnly = fixImportsOnly;
-    this.sortImports = sortImports;
-    this.removeUnusedImports = removeUnusedImports;
-    this.dryRun = dryRun;
-    this.setExitIfChanged = setExitIfChanged;
-  }
-
-  /** The files to format. */
-  ImmutableList<String> files() {
-    return files;
-  }
-
-  /** Format files in place. */
-  boolean inPlace() {
-    return inPlace;
-  }
-
-  /** Line ranges to format. */
-  ImmutableRangeSet<Integer> lines() {
-    return lines;
-  }
-
-  /** Character offsets for partial formatting, paired with {@code lengths}. */
-  ImmutableList<Integer> offsets() {
-    return offsets;
-  }
-
-  /** Partial formatting region lengths, paired with {@code offsets}. */
-  ImmutableList<Integer> lengths() {
-    return lengths;
-  }
-
-  /** Code style setting. */
-  Style getStyle() {
-    return this.style;
-  }
-
-  /** Print the version. */
-  boolean version() {
-    return version;
-  }
-
-  /** Print usage information. */
-  boolean help() {
-    return help;
-  }
-
-  /** Format input from stdin. */
-  boolean stdin() {
-    return stdin;
-  }
-
-  /** Fix imports, but do no formatting. */
-  boolean fixImportsOnly() {
-    return fixImportsOnly;
-  }
-
-  /** Sort imports. */
-  boolean sortImports() {
-    return sortImports;
-  }
-
-  /** Remove unused imports. */
-  boolean removeUnusedImports() {
-    return removeUnusedImports;
-  }
-
-  /**
-   * Print the paths of the files whose contents would change if the formatter were run normally.
-   */
-  boolean dryRun() {
-    return dryRun;
-  }
-
-  /** Return exit code 1 if there are any formatting changes. */
-  boolean setExitIfChanged() {
-    return setExitIfChanged;
-  }
-
-  /** Returns true if partial formatting was selected. */
-  boolean isSelection() {
-    return !lines().isEmpty() || !offsets().isEmpty() || !lengths().isEmpty();
-  }
-
-  static Builder builder() {
-    return new Builder();
-  }
-
-  static class Builder {
-
-    private final ImmutableList.Builder<String> files = ImmutableList.builder();
-    private final ImmutableRangeSet.Builder<Integer> lines = ImmutableRangeSet.builder();
-    private final ImmutableList.Builder<Integer> offsets = ImmutableList.builder();
-    private final ImmutableList.Builder<Integer> lengths = ImmutableList.builder();
-    private boolean inPlace = false;
-    private Style style = Style.GOOGLE;
-    private boolean version = false;
-    private boolean help = false;
-    private boolean stdin = false;
-    private boolean fixImportsOnly = false;
-    private boolean sortImports = true;
-    private boolean removeUnusedImports = true;
-    private boolean dryRun = false;
-    private boolean setExitIfChanged = false;
-
-    ImmutableList.Builder<String> filesBuilder() {
-      return files;
+    CommandLineOptions(
+            ImmutableList<String> files,
+            boolean inPlace,
+            ImmutableRangeSet<Integer> lines,
+            ImmutableList<Integer> offsets,
+            ImmutableList<Integer> lengths,
+            Style style,
+            boolean version,
+            boolean help,
+            boolean stdin,
+            boolean fixImportsOnly,
+            boolean sortImports,
+            boolean removeUnusedImports,
+            boolean dryRun,
+            boolean setExitIfChanged) {
+        this.files = files;
+        this.inPlace = inPlace;
+        this.lines = lines;
+        this.offsets = offsets;
+        this.lengths = lengths;
+        this.style = style;
+        this.version = version;
+        this.help = help;
+        this.stdin = stdin;
+        this.fixImportsOnly = fixImportsOnly;
+        this.sortImports = sortImports;
+        this.removeUnusedImports = removeUnusedImports;
+        this.dryRun = dryRun;
+        this.setExitIfChanged = setExitIfChanged;
     }
 
-    Builder inPlace(boolean inPlace) {
-      this.inPlace = inPlace;
-      return this;
+    static Builder builder() {
+        return new Builder();
     }
 
-    ImmutableRangeSet.Builder<Integer> linesBuilder() {
-      return lines;
+    /** The files to format. */
+    ImmutableList<String> files() {
+        return files;
     }
 
-    Builder addOffset(Integer offset) {
-      offsets.add(offset);
-      return this;
+    /** Format files in place. */
+    boolean inPlace() {
+        return inPlace;
     }
 
-    Builder addLength(Integer length) {
-      lengths.add(length);
-      return this;
+    /** Line ranges to format. */
+    ImmutableRangeSet<Integer> lines() {
+        return lines;
     }
 
-    Builder style(Style style) {
-      this.style = style;
-      return this;
+    /** Character offsets for partial formatting, paired with {@code lengths}. */
+    ImmutableList<Integer> offsets() {
+        return offsets;
     }
 
-    Builder version(boolean version) {
-      this.version = version;
-      return this;
+    /** Partial formatting region lengths, paired with {@code offsets}. */
+    ImmutableList<Integer> lengths() {
+        return lengths;
     }
 
-    Builder help(boolean help) {
-      this.help = help;
-      return this;
+    /** Code style setting. */
+    Style getStyle() {
+        return this.style;
     }
 
-    Builder stdin(boolean stdin) {
-      this.stdin = stdin;
-      return this;
+    /** Print the version. */
+    boolean version() {
+        return version;
     }
 
-    Builder fixImportsOnly(boolean fixImportsOnly) {
-      this.fixImportsOnly = fixImportsOnly;
-      return this;
+    /** Print usage information. */
+    boolean help() {
+        return help;
     }
 
-    Builder sortImports(boolean sortImports) {
-      this.sortImports = sortImports;
-      return this;
+    /** Format input from stdin. */
+    boolean stdin() {
+        return stdin;
     }
 
-    Builder removeUnusedImports(boolean removeUnusedImports) {
-      this.removeUnusedImports = removeUnusedImports;
-      return this;
+    /** Fix imports, but do no formatting. */
+    boolean fixImportsOnly() {
+        return fixImportsOnly;
     }
 
-    Builder dryRun(boolean dryRun) {
-      this.dryRun = dryRun;
-      return this;
+    /** Sort imports. */
+    boolean sortImports() {
+        return sortImports;
     }
 
-    Builder setExitIfChanged(boolean setExitIfChanged) {
-      this.setExitIfChanged = setExitIfChanged;
-      return this;
+    /** Remove unused imports. */
+    boolean removeUnusedImports() {
+        return removeUnusedImports;
     }
 
-    CommandLineOptions build() {
-      return new CommandLineOptions(
-          files.build(),
-          inPlace,
-          lines.build(),
-          offsets.build(),
-          lengths.build(),
-          style,
-          version,
-          help,
-          stdin,
-          fixImportsOnly,
-          sortImports,
-          removeUnusedImports,
-          dryRun,
-          setExitIfChanged);
+    /**
+     * Print the paths of the files whose contents would change if the formatter were run normally.
+     */
+    boolean dryRun() {
+        return dryRun;
     }
-  }
+
+    /** Return exit code 1 if there are any formatting changes. */
+    boolean setExitIfChanged() {
+        return setExitIfChanged;
+    }
+
+    /** Returns true if partial formatting was selected. */
+    boolean isSelection() {
+        return !lines().isEmpty() || !offsets().isEmpty() || !lengths().isEmpty();
+    }
+
+    static class Builder {
+
+        private final ImmutableList.Builder<String> files = ImmutableList.builder();
+        private final ImmutableRangeSet.Builder<Integer> lines = ImmutableRangeSet.builder();
+        private final ImmutableList.Builder<Integer> offsets = ImmutableList.builder();
+        private final ImmutableList.Builder<Integer> lengths = ImmutableList.builder();
+        private boolean inPlace = false;
+        private Style style = Style.GOOGLE;
+        private boolean version = false;
+        private boolean help = false;
+        private boolean stdin = false;
+        private boolean fixImportsOnly = false;
+        private boolean sortImports = true;
+        private boolean removeUnusedImports = true;
+        private boolean dryRun = false;
+        private boolean setExitIfChanged = false;
+
+        ImmutableList.Builder<String> filesBuilder() {
+            return files;
+        }
+
+        Builder inPlace(boolean inPlace) {
+            this.inPlace = inPlace;
+            return this;
+        }
+
+        ImmutableRangeSet.Builder<Integer> linesBuilder() {
+            return lines;
+        }
+
+        Builder addOffset(Integer offset) {
+            offsets.add(offset);
+            return this;
+        }
+
+        Builder addLength(Integer length) {
+            lengths.add(length);
+            return this;
+        }
+
+        Builder style(Style style) {
+            this.style = style;
+            return this;
+        }
+
+        Builder version(boolean version) {
+            this.version = version;
+            return this;
+        }
+
+        Builder help(boolean help) {
+            this.help = help;
+            return this;
+        }
+
+        Builder stdin(boolean stdin) {
+            this.stdin = stdin;
+            return this;
+        }
+
+        Builder fixImportsOnly(boolean fixImportsOnly) {
+            this.fixImportsOnly = fixImportsOnly;
+            return this;
+        }
+
+        Builder sortImports(boolean sortImports) {
+            this.sortImports = sortImports;
+            return this;
+        }
+
+        Builder removeUnusedImports(boolean removeUnusedImports) {
+            this.removeUnusedImports = removeUnusedImports;
+            return this;
+        }
+
+        Builder dryRun(boolean dryRun) {
+            this.dryRun = dryRun;
+            return this;
+        }
+
+        Builder setExitIfChanged(boolean setExitIfChanged) {
+            this.setExitIfChanged = setExitIfChanged;
+            return this;
+        }
+
+        CommandLineOptions build() {
+            return new CommandLineOptions(
+                    files.build(),
+                    inPlace,
+                    lines.build(),
+                    offsets.build(),
+                    lengths.build(),
+                    style,
+                    version,
+                    help,
+                    stdin,
+                    fixImportsOnly,
+                    sortImports,
+                    removeUnusedImports,
+                    dryRun,
+                    setExitIfChanged);
+        }
+    }
 }

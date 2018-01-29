@@ -26,32 +26,32 @@ import org.picocontainer.MutablePicoContainer;
  */
 final class GoogleJavaFormatInstaller {
 
-  private static final String CODE_STYLE_MANAGER_KEY = CodeStyleManager.class.getName();
+    private static final String CODE_STYLE_MANAGER_KEY = CodeStyleManager.class.getName();
 
-  private GoogleJavaFormatInstaller() {}
+    private GoogleJavaFormatInstaller() {}
 
-  public static void installFormatter(Project project) {
-    CodeStyleManager currentManager = CodeStyleManager.getInstance(project);
+    public static void installFormatter(Project project) {
+        CodeStyleManager currentManager = CodeStyleManager.getInstance(project);
 
-    if (currentManager instanceof GoogleJavaFormatCodeStyleManager) {
-      currentManager = ((GoogleJavaFormatCodeStyleManager) currentManager).getDelegate();
+        if (currentManager instanceof GoogleJavaFormatCodeStyleManager) {
+            currentManager = ((GoogleJavaFormatCodeStyleManager) currentManager).getDelegate();
+        }
+
+        setManager(project, new GoogleJavaFormatCodeStyleManager(currentManager));
     }
 
-    setManager(project, new GoogleJavaFormatCodeStyleManager(currentManager));
-  }
-
-  public static void removeFormatter(Project project) {
-    CodeStyleManager currentManager = CodeStyleManager.getInstance(project);
-    if (currentManager instanceof GoogleJavaFormatCodeStyleManager) {
-      setManager(project, ((GoogleJavaFormatCodeStyleManager) currentManager).getDelegate());
+    public static void removeFormatter(Project project) {
+        CodeStyleManager currentManager = CodeStyleManager.getInstance(project);
+        if (currentManager instanceof GoogleJavaFormatCodeStyleManager) {
+            setManager(project, ((GoogleJavaFormatCodeStyleManager) currentManager).getDelegate());
+        }
     }
-  }
 
-  private static void setManager(Project project, CodeStyleManager newManager) {
-    if (newManager != null) {
-      MutablePicoContainer container = (MutablePicoContainer) project.getPicoContainer();
-      container.unregisterComponent(CODE_STYLE_MANAGER_KEY);
-      container.registerComponentInstance(CODE_STYLE_MANAGER_KEY, newManager);
+    private static void setManager(Project project, CodeStyleManager newManager) {
+        if (newManager != null) {
+            MutablePicoContainer container = (MutablePicoContainer) project.getPicoContainer();
+            container.unregisterComponent(CODE_STYLE_MANAGER_KEY);
+            container.registerComponentInstance(CODE_STYLE_MANAGER_KEY, newManager);
+        }
     }
-  }
 }

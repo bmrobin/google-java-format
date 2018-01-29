@@ -23,31 +23,31 @@ import java.util.Objects;
 
 /** Configuration options for the formatting style. */
 enum UiFormatterStyle {
-  GOOGLE("Default Google Java style", Style.GOOGLE),
-  AOSP("Android Open Source Project (AOSP) style", Style.AOSP),
-  CENGAGE("Cengage Java Style", Style.CENGAGE);
+    GOOGLE("Default Google Java style", Style.GOOGLE),
+    AOSP("Android Open Source Project (AOSP) style", Style.AOSP),
+    CENGAGE("Cengage Java Style", Style.CENGAGE);
 
-  private final String description;
-  private final JavaFormatterOptions.Style style;
+    private final String description;
+    private final JavaFormatterOptions.Style style;
 
-  UiFormatterStyle(String description, JavaFormatterOptions.Style style) {
-    this.description = description;
-    this.style = style;
-  }
+    UiFormatterStyle(String description, JavaFormatterOptions.Style style) {
+        this.description = description;
+        this.style = style;
+    }
 
-  @Override
-  public String toString() {
-    return description;
-  }
+    static UiFormatterStyle convert(JavaFormatterOptions.Style style) {
+        return Arrays.stream(UiFormatterStyle.values())
+                .filter(value -> Objects.equals(value.style, style))
+                .findFirst()
+                .get();
+    }
 
-  public JavaFormatterOptions.Style convert() {
-    return style;
-  }
+    @Override
+    public String toString() {
+        return description;
+    }
 
-  static UiFormatterStyle convert(JavaFormatterOptions.Style style) {
-    return Arrays.stream(UiFormatterStyle.values())
-        .filter(value -> Objects.equals(value.style, style))
-        .findFirst()
-        .get();
-  }
+    public JavaFormatterOptions.Style convert() {
+        return style;
+    }
 }

@@ -27,81 +27,82 @@ import org.junit.runners.JUnit4;
 /** {@link SnippetFormatter}Test */
 @RunWith(JUnit4.class)
 public class SnippetFormatterTest {
-  @Test
-  public void expression() throws FormatterException {
-    String input = "x\n=42";
-    List<Replacement> replacements =
-        new SnippetFormatter()
-            .format(
-                SnippetKind.EXPRESSION,
-                input,
-                ImmutableList.of(Range.closedOpen(0, input.length())),
-                4,
-                false);
-    assertThat(replacements)
-        .containsExactly(
-            Replacement.create(Range.closedOpen(1, 2), " "),
-            Replacement.create(Range.closedOpen(3, 3), " "));
-  }
+    @Test
+    public void expression() throws FormatterException {
+        String input = "x\n=42";
+        List<Replacement> replacements =
+                new SnippetFormatter()
+                        .format(
+                                SnippetKind.EXPRESSION,
+                                input,
+                                ImmutableList.of(Range.closedOpen(0, input.length())),
+                                4,
+                                false);
+        assertThat(replacements)
+                .containsExactly(
+                        Replacement.create(Range.closedOpen(1, 2), " "),
+                        Replacement.create(Range.closedOpen(3, 3), " "));
+    }
 
-  @Test
-  public void statement() throws FormatterException {
-    String input = "int x\n=42;";
-    List<Replacement> replacements =
-        new SnippetFormatter()
-            .format(
-                SnippetKind.STATEMENTS,
-                input,
-                ImmutableList.of(Range.closedOpen(0, input.length())),
-                4,
-                false);
-    assertThat(replacements)
-        .containsExactly(
-            Replacement.create(Range.closedOpen(5, 6), " "),
-            Replacement.create(Range.closedOpen(7, 7), " "));
-  }
+    @Test
+    public void statement() throws FormatterException {
+        String input = "int x\n=42;";
+        List<Replacement> replacements =
+                new SnippetFormatter()
+                        .format(
+                                SnippetKind.STATEMENTS,
+                                input,
+                                ImmutableList.of(Range.closedOpen(0, input.length())),
+                                4,
+                                false);
+        assertThat(replacements)
+                .containsExactly(
+                        Replacement.create(Range.closedOpen(5, 6), " "),
+                        Replacement.create(Range.closedOpen(7, 7), " "));
+    }
 
-  @Test
-  public void classMember() throws FormatterException {
-    String input = "void f() {\n}";
-    List<Replacement> replacements =
-        new SnippetFormatter()
-            .format(
-                SnippetKind.CLASS_BODY_DECLARATIONS,
-                input,
-                ImmutableList.of(Range.closedOpen(0, input.length())),
-                4,
-                false);
-    assertThat(replacements).containsExactly(Replacement.create(Range.closedOpen(10, 11), ""));
-  }
+    @Test
+    public void classMember() throws FormatterException {
+        String input = "void f() {\n}";
+        List<Replacement> replacements =
+                new SnippetFormatter()
+                        .format(
+                                SnippetKind.CLASS_BODY_DECLARATIONS,
+                                input,
+                                ImmutableList.of(Range.closedOpen(0, input.length())),
+                                4,
+                                false);
+        assertThat(replacements).containsExactly(Replacement.create(Range.closedOpen(10, 11), ""));
+    }
 
-  @Test
-  public void compilation() throws FormatterException {
-    String input = "/** a\nb*/\nclass Test {\n}";
-    List<Replacement> replacements =
-        new SnippetFormatter()
-            .format(
-                SnippetKind.COMPILATION_UNIT,
-                input,
-                ImmutableList.of(Range.closedOpen(input.indexOf("class"), input.length())),
-                4,
-                false);
-    assertThat(replacements).containsExactly(Replacement.create(Range.closedOpen(22, 23), ""));
-  }
+    @Test
+    public void compilation() throws FormatterException {
+        String input = "/** a\nb*/\nclass Test {\n}";
+        List<Replacement> replacements =
+                new SnippetFormatter()
+                        .format(
+                                SnippetKind.COMPILATION_UNIT,
+                                input,
+                                ImmutableList.of(
+                                        Range.closedOpen(input.indexOf("class"), input.length())),
+                                4,
+                                false);
+        assertThat(replacements).containsExactly(Replacement.create(Range.closedOpen(22, 23), ""));
+    }
 
-  @Test
-  public void compilationWithComments() throws FormatterException {
-    String input = "/** a\nb*/\nclass Test {\n}";
-    List<Replacement> replacements =
-        new SnippetFormatter()
-            .format(
-                SnippetKind.COMPILATION_UNIT,
-                input,
-                ImmutableList.of(Range.closedOpen(0, input.length())),
-                4,
-                true);
-    assertThat(replacements)
-        .containsExactly(
-            Replacement.create(Range.closedOpen(0, 24), "/** a b */\nclass Test {}\n"));
-  }
+    @Test
+    public void compilationWithComments() throws FormatterException {
+        String input = "/** a\nb*/\nclass Test {\n}";
+        List<Replacement> replacements =
+                new SnippetFormatter()
+                        .format(
+                                SnippetKind.COMPILATION_UNIT,
+                                input,
+                                ImmutableList.of(Range.closedOpen(0, input.length())),
+                                4,
+                                true);
+        assertThat(replacements)
+                .containsExactly(
+                        Replacement.create(Range.closedOpen(0, 24), "/** a b */\nclass Test {}\n"));
+    }
 }

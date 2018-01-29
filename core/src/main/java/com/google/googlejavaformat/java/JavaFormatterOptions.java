@@ -29,69 +29,68 @@ import com.google.errorprone.annotations.Immutable;
 @Immutable
 public class JavaFormatterOptions {
 
-  static final int DEFAULT_MAX_LINE_LENGTH = 100;
+    static final int DEFAULT_MAX_LINE_LENGTH = 100;
+    private final Style style;
 
-  public enum Style {
-
-    /** The default Google Java Style configuration. */
-    GOOGLE(1),
-
-    /** The AOSP-compliant configuration. */
-    AOSP(2),
-
-    /** Cengage custom configuration. */
-    CENGAGE(2);
-
-    private final int indentationMultiplier;
-
-    Style(int indentationMultiplier) {
-      this.indentationMultiplier = indentationMultiplier;
+    private JavaFormatterOptions(Style style) {
+        this.style = style;
     }
 
-    int indentationMultiplier() {
-      return indentationMultiplier;
-    }
-  }
-
-  private final Style style;
-
-  private JavaFormatterOptions(Style style) {
-    this.style = style;
-  }
-
-  /** Returns the maximum formatted width */
-  public int maxLineLength() {
-    return DEFAULT_MAX_LINE_LENGTH;
-  }
-
-  /** Returns the multiplier for the unit of indent */
-  public int indentationMultiplier() {
-    return style.indentationMultiplier();
-  }
-
-  /** Returns the default formatting options. */
-  public static JavaFormatterOptions defaultOptions() {
-    return builder().build();
-  }
-
-  /** Returns a builder for {@link JavaFormatterOptions}. */
-  public static Builder builder() {
-    return new Builder();
-  }
-
-  /** A builder for {@link JavaFormatterOptions}. */
-  public static class Builder {
-    private Style style = Style.GOOGLE;
-
-    private Builder() {}
-
-    public Builder style(Style style) {
-      this.style = style;
-      return this;
+    /** Returns the default formatting options. */
+    public static JavaFormatterOptions defaultOptions() {
+        return builder().build();
     }
 
-    public JavaFormatterOptions build() {
-      return new JavaFormatterOptions(style);
+    /** Returns a builder for {@link JavaFormatterOptions}. */
+    public static Builder builder() {
+        return new Builder();
     }
-  }
+
+    /** Returns the maximum formatted width */
+    public int maxLineLength() {
+        return DEFAULT_MAX_LINE_LENGTH;
+    }
+
+    /** Returns the multiplier for the unit of indent */
+    public int indentationMultiplier() {
+        return style.indentationMultiplier();
+    }
+
+    public enum Style {
+
+        /** The default Google Java Style configuration. */
+        GOOGLE(1),
+
+        /** The AOSP-compliant configuration. */
+        AOSP(2),
+
+        /** Cengage custom configuration. */
+        CENGAGE(2);
+
+        private final int indentationMultiplier;
+
+        Style(int indentationMultiplier) {
+            this.indentationMultiplier = indentationMultiplier;
+        }
+
+        int indentationMultiplier() {
+            return indentationMultiplier;
+        }
+    }
+
+    /** A builder for {@link JavaFormatterOptions}. */
+    public static class Builder {
+        private Style style = Style.GOOGLE;
+
+        private Builder() {}
+
+        public Builder style(Style style) {
+            this.style = style;
+            return this;
+        }
+
+        public JavaFormatterOptions build() {
+            return new JavaFormatterOptions(style);
+        }
+    }
 }

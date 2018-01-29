@@ -12,3 +12,6 @@ target/
 
 bin/
 out/
+classes/
+
+.DS_Store

@@ -25,53 +25,53 @@ import java.util.Objects;
  */
 public class Replacement {
 
-  public static Replacement create(int startPosition, int endPosition, String replaceWith) {
-    return new Replacement(Range.closedOpen(startPosition, endPosition), replaceWith);
-  }
+    private final Range<Integer> replaceRange;
+    private final String replacementString;
 
-  public static Replacement create(Range<Integer> range, String replaceWith) {
-    return new Replacement(range, replaceWith);
-  }
-
-  private final Range<Integer> replaceRange;
-  private final String replacementString;
-
-  Replacement(Range<Integer> replaceRange, String replacementString) {
-    if (replaceRange == null) {
-      throw new NullPointerException("Null replaceRange");
+    Replacement(Range<Integer> replaceRange, String replacementString) {
+        if (replaceRange == null) {
+            throw new NullPointerException("Null replaceRange");
+        }
+        this.replaceRange = replaceRange;
+        if (replacementString == null) {
+            throw new NullPointerException("Null replacementString");
+        }
+        this.replacementString = replacementString;
     }
-    this.replaceRange = replaceRange;
-    if (replacementString == null) {
-      throw new NullPointerException("Null replacementString");
+
+    public static Replacement create(int startPosition, int endPosition, String replaceWith) {
+        return new Replacement(Range.closedOpen(startPosition, endPosition), replaceWith);
     }
-    this.replacementString = replacementString;
-  }
 
-  /** The range of characters in the original source to replace. */
-  public Range<Integer> getReplaceRange() {
-    return replaceRange;
-  }
-
-  /** The string to replace the range of characters with. */
-  public String getReplacementString() {
-    return replacementString;
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (o == this) {
-      return true;
+    public static Replacement create(Range<Integer> range, String replaceWith) {
+        return new Replacement(range, replaceWith);
     }
-    if (o instanceof Replacement) {
-      Replacement that = (Replacement) o;
-      return replaceRange.equals(that.getReplaceRange())
-          && replacementString.equals(that.getReplacementString());
-    }
-    return false;
-  }
 
-  @Override
-  public int hashCode() {
-    return Objects.hash(replaceRange, replacementString);
-  }
+    /** The range of characters in the original source to replace. */
+    public Range<Integer> getReplaceRange() {
+        return replaceRange;
+    }
+
+    /** The string to replace the range of characters with. */
+    public String getReplacementString() {
+        return replacementString;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) {
+            return true;
+        }
+        if (o instanceof Replacement) {
+            Replacement that = (Replacement) o;
+            return replaceRange.equals(that.getReplaceRange())
+                    && replacementString.equals(that.getReplacementString());
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(replaceRange, replacementString);
+    }
 }

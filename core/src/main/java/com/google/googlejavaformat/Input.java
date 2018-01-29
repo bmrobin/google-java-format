@@ -21,113 +21,113 @@ import com.google.common.collect.ImmutableRangeMap;
 
 /** An input to the formatter. */
 public abstract class Input extends InputOutput {
-  /**
-   * A {@code Tok} ("tock") is a token, or a comment, or a newline, or a maximal string of blanks. A
-   * token {@code Tok} underlies a {@link Token}, and each other {@code Tok} is attached to a single
-   * {@code Token}. Tokens and comments have indices; white space {@code Tok}s do not.
-   */
-  public interface Tok {
     /**
-     * Return the {@code Tok}'s index.
+     * Get the input tokens.
      *
-     * @return its index
+     * @return the input tokens
      */
-    int getIndex();
+    public abstract ImmutableList<? extends Token> getTokens();
 
-    /**
-     * Return the {@code Tok}'s {@code 0}-based position.
-     *
-     * @return its position
-     */
-    int getPosition();
+    /** A map from [start, end] position ranges to {@link Token}s. */
+    public abstract ImmutableRangeMap<Integer, ? extends Token> getPositionTokenMap();
 
-    /**
-     * Return the {@code Tok}'s {@code 0}-based column number.
-     *
-     * @return its column number
-     */
-    int getColumn();
+    public abstract ImmutableMap<Integer, Integer> getPositionToColumnMap();
 
-    /** The {@code Tok}'s text. */
-    String getText();
+    public abstract String getText();
 
-    /** The {@code Tok}'s original text (before processing escapes). */
-    String getOriginalText();
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this).add("super", super.toString()).toString();
+    }
 
-    /** The length of the {@code Tok}'s original text. */
-    int length();
+    /** Converts a character offset in the input to a line number. */
+    public abstract int getLineNumber(int inputPosition);
 
-    /** Is the {@code Tok} a newline? */
-    boolean isNewline();
-
-    /** Is the {@code Tok} a "//" comment? */
-    boolean isSlashSlashComment();
-
-    /** Is the {@code Tok} a "//" comment? */
-    boolean isSlashStarComment();
-
-    /** Is the {@code Tok} a javadoc comment? */
-    boolean isJavadocComment();
-
-    /** Is the {@code Tok} a comment? */
-    boolean isComment();
-  }
-
-  /** A {@code Token} is a language-level token. */
-  public interface Token {
-    /**
-     * Get the token's {@link Tok}.
-     *
-     * @return the token's {@link Tok}
-     */
-    Tok getTok();
+    /** Converts a character offset in the input to a 0-based column number. */
+    public abstract int getColumnNumber(int inputPosition);
 
     /**
-     * Get the earlier {@link Tok}s assigned to this {@code Token}.
-     *
-     * @return the earlier {@link Tok}s assigned to this {@code Token}
+     * Construct a diagnostic. Populates the input filename, and converts character offsets to
+     * numbers.
      */
-    ImmutableList<? extends Tok> getToksBefore();
+    public FormatterDiagnostic createDiagnostic(int inputPosition, String message) {
+        return FormatterDiagnostic.create(
+                getLineNumber(inputPosition), getColumnNumber(inputPosition), message);
+    }
 
     /**
-     * Get the later {@link Tok}s assigned to this {@code Token}.
-     *
-     * @return the later {@link Tok}s assigned to this {@code Token}
+     * A {@code Tok} ("tock") is a token, or a comment, or a newline, or a maximal string of blanks.
+     * A token {@code Tok} underlies a {@link Token}, and each other {@code Tok} is attached to a
+     * single {@code Token}. Tokens and comments have indices; white space {@code Tok}s do not.
      */
-    ImmutableList<? extends Tok> getToksAfter();
-  }
+    public interface Tok {
+        /**
+         * Return the {@code Tok}'s index.
+         *
+         * @return its index
+         */
+        int getIndex();
 
-  /**
-   * Get the input tokens.
-   *
-   * @return the input tokens
-   */
-  public abstract ImmutableList<? extends Token> getTokens();
+        /**
+         * Return the {@code Tok}'s {@code 0}-based position.
+         *
+         * @return its position
+         */
+        int getPosition();
 
-  /** A map from [start, end] position ranges to {@link Token}s. */
-  public abstract ImmutableRangeMap<Integer, ? extends Token> getPositionTokenMap();
+        /**
+         * Return the {@code Tok}'s {@code 0}-based column number.
+         *
+         * @return its column number
+         */
+        int getColumn();
 
-  public abstract ImmutableMap<Integer, Integer> getPositionToColumnMap();
+        /** The {@code Tok}'s text. */
+        String getText();
 
-  public abstract String getText();
+        /** The {@code Tok}'s original text (before processing escapes). */
+        String getOriginalText();
 
-  @Override
-  public String toString() {
-    return MoreObjects.toStringHelper(this).add("super", super.toString()).toString();
-  }
+        /** The length of the {@code Tok}'s original text. */
+        int length();
 
-  /** Converts a character offset in the input to a line number. */
-  public abstract int getLineNumber(int inputPosition);
+        /** Is the {@code Tok} a newline? */
+        boolean isNewline();
 
-  /** Converts a character offset in the input to a 0-based column number. */
-  public abstract int getColumnNumber(int inputPosition);
+        /** Is the {@code Tok} a "//" comment? */
+        boolean isSlashSlashComment();
 
-  /**
-   * Construct a diagnostic. Populates the input filename, and converts character offsets to
-   * numbers.
-   */
-  public FormatterDiagnostic createDiagnostic(int inputPosition, String message) {
-    return FormatterDiagnostic.create(
-        getLineNumber(inputPosition), getColumnNumber(inputPosition), message);
-  }
+        /** Is the {@code Tok} a "//" comment? */
+        boolean isSlashStarComment();
+
+        /** Is the {@code Tok} a javadoc comment? */
+        boolean isJavadocComment();
+
+        /** Is the {@code Tok} a comment? */
+        boolean isComment();
+    }
+
+    /** A {@code Token} is a language-level token. */
+    public interface Token {
+        /**
+         * Get the token's {@link Tok}.
+         *
+         * @return the token's {@link Tok}
+         */
+        Tok getTok();
+
+        /**
+         * Get the earlier {@link Tok}s assigned to this {@code Token}.
+         *
+         * @return the earlier {@link Tok}s assigned to this {@code Token}
+         */
+        ImmutableList<? extends Tok> getToksBefore();
+
+        /**
+         * Get the later {@link Tok}s assigned to this {@code Token}.
+         *
+         * @return the later {@link Tok}s assigned to this {@code Token}
+         */
+        ImmutableList<? extends Tok> getToksAfter();
+    }
 }
